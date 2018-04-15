@@ -12,6 +12,9 @@
     <button type="button" class="btn btn-success btn-flat" style="margin-top: -10px;" data-toggle="modal"
             data-target="#job-run-modal">RunOnce
     </button>
+    <button type="button" class="btn btn-success btn-flat" style="margin-top: -10px;" data-toggle="modal"
+            data-target="#job-run-modal">Export
+    </button>
 </ol>
 {% endblock %}
 {% block content_body %}
@@ -38,7 +41,11 @@
             {% if job.job_instance %}
             <tr>
                 <td>{{ job.job_execution_id }}</td>
-                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>
+                <td>
+                    <a href="/project/{{ job.job_project_id }}/job/{{ job
+                    .job_instance_id}}/detail">{{ job.job_instance_id }}</a>
+                </td>
+{#                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>#}
                 <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
@@ -95,8 +102,12 @@
             {% if job.job_instance %}
             <tr>
                 <td>{{ job.job_execution_id }}</td>
-                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>
-                <td>{{ job.job_instance.spider_name }}</td>
+                <td>
+                    <a href="/project/{{ job.job_project_id }}/job/{{ job
+                    .job_instance_id}}/detail">
+                        {{ job.job_instance_id }}
+                    </a>
+                </td>                <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
                 </td>
@@ -160,7 +171,11 @@
             {% if job.job_instance %}
             <tr>
                 <td>{{ job.job_execution_id }}</td>
-                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>
+                <td>
+                    <a href="/project/{{ job.project_id }}/job/{{ job.job_instance_id}}/detail">
+                        {{ job.job_instance_id }}
+                    </a>
+                </td>
                 <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}

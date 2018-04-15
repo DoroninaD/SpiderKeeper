@@ -12,6 +12,8 @@ from flask import render_template
 from flask import session
 from flask_restful_swagger import swagger
 from werkzeug.utils import secure_filename
+import urllib.request
+
 
 from SpiderKeeper.app import db, api, agent, app
 from SpiderKeeper.app.spider.model import JobInstance, Project, JobExecution, SpiderInstance, JobRunType
@@ -533,6 +535,18 @@ def project_manage():
 def job_dashboard(project_id):
     return render_template("job_dashboard.html", job_status=JobExecution.list_jobs(project_id))
 
+@app.route("/project/<project_id>/job/<job_id>/detail", methods=['get'])
+def job_detail(project_id, job_id):
+    job_status = JobExecution.find_job_by_instance_id(job_id)
+    job_instance = JobInstance.find_job_instance_by_id(job_id)
+    return render_template('job_detail.html', job=job_status, job_instance=job_instance)
+
+@app.route("/project/<project_id>/job/<job_id>/export", methods=['post'])
+def job_export(project_id, job_id):
+    job_status = JobExecution.find_job_by_instance_id(job_id)
+    url='https://s3.amazonaws.com/dds-testing-bucket/scrapy/aan_events/2018-04-15T08-38-08.csv'
+    urllib.request.urlretrieve(url, '/home/daria/file.csv')
+    return job_detail(project_id, job_id)
 
 @app.route("/project/<project_id>/job/periodic")
 def job_periodic(project_id):

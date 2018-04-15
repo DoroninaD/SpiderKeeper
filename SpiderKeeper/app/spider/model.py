@@ -175,6 +175,12 @@ class JobExecution(Base):
         }
 
     @classmethod
+    def find_job_by_instance_id(cls, job_instance_id):
+        return cls.query.filter_by(job_instance_id=job_instance_id).first(
+
+        ).to_dict()
+
+    @classmethod
     def find_job_by_service_id(cls, service_job_execution_id):
         return cls.query.filter_by(service_job_execution_id=service_job_execution_id).first()
 
