@@ -1,6 +1,7 @@
 import datetime
 import os
 import tempfile
+import time
 
 import flask_restful
 import requests
@@ -12,8 +13,7 @@ from flask import render_template
 from flask import session
 from flask_restful_swagger import swagger
 from werkzeug.utils import secure_filename
-import urllib.request
-
+from SpiderKeeper import config
 
 from SpiderKeeper.app import db, api, agent, app
 from SpiderKeeper.app.spider.model import JobInstance, Project, JobExecution, SpiderInstance, JobRunType
@@ -539,14 +539,21 @@ def job_dashboard(project_id):
 def job_detail(project_id, job_id):
     job_status = JobExecution.find_job_by_instance_id(job_id)
     job_instance = JobInstance.find_job_instance_by_id(job_id)
-    return render_template('job_detail.html', job=job_status, job_instance=job_instance)
 
-@app.route("/project/<project_id>/job/<job_id>/export", methods=['post'])
-def job_export(project_id, job_id):
-    job_status = JobExecution.find_job_by_instance_id(job_id)
-    url='https://s3.amazonaws.com/dds-testing-bucket/scrapy/aan_events/2018-04-15T08-38-08.csv'
-    urllib.request.urlretrieve(url, '/home/daria/file.csv')
-    return job_detail(project_id, job_id)
+    start_time = job_status.get("start_time")
+    start_time = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+    start_time = time.strftime('%Y-%m-%dT%H-%M-%S', start_time)
+
+    export_url = f'{config.FILES_STORAGE}/{job_instance.spider_name}/' \
+          f'{start_time}.{config.FILES_FORMAT}'
+
+    return render_template(
+        'job_detail.html',
+        job=job_status,
+        job_instance=job_instance,
+        url=export_url
+    )
+
 
 @app.route("/project/<project_id>/job/periodic")
 def job_periodic(project_id):

@@ -40,3 +40,6 @@ NO_AUTH = False
 BASIC_AUTH_USERNAME = 'admin'
 BASIC_AUTH_PASSWORD = 'admin'
 BASIC_AUTH_FORCE = True
+
+FILES_STORAGE = 'https://s3.amazonaws.com/dds-testing-bucket/scrapy'
+FILES_FORMAT = 'csv'

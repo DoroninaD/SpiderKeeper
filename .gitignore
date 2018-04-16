@@ -8,3 +8,6 @@ venv
 dist
 build
 SpiderKeeper.db
+dbs/*
+eggs/*
+logs/*
