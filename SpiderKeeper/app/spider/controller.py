@@ -670,7 +670,9 @@ def spider_egg_upload(project_id):
         file.save(dst)
         agent.deploy(project, dst)
         flash('deploy success!')
-    return redirect(request.referrer)
+    if request.referrer:
+        return redirect(request.referrer)
+    return 'Deploy succeeded'
 
 
 @app.route("/project/<project_id>/project/stats")

@@ -11,3 +11,4 @@ SpiderKeeper.db
 dbs/*
 eggs/*
 logs/*
+twistd.pid
