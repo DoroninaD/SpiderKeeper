@@ -46,9 +46,9 @@ FILES_FORMAT = 'csv'
 DATABASE = {
     'DB': 'postgresql',
     'NAME': 'usummit_grabbers',
-    'USER': 'usummit_grabbers_user',
-    'PASSWORD': 'manager',
-    'HOST': 'postgres',
+    'USER': 'django_user',
+    'PASSWORD': 'django_password',
+    'HOST': '127.0.0.1',
     'PORT': '5432',
     'CONN_MAX_AGE': 30,
 }
