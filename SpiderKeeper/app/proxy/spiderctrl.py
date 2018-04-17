@@ -1,10 +1,12 @@
 import datetime
 import random
 from functools import reduce
+import requests
+import re
 
 from SpiderKeeper.app import db
 from SpiderKeeper.app.spider.model import SpiderStatus, JobExecution, JobInstance, Project, JobPriority
-
+import SpiderKeeper.config as config
 
 class SpiderServiceProxy(object):
     def __init__(self, server):
@@ -115,6 +117,7 @@ class SpiderAgent():
                     job_execution.start_time = job_execution_info['start_time']
                     job_execution.end_time = job_execution_info['end_time']
                     job_execution.running_status = SpiderStatus.FINISHED
+                    job_execution.export_url = self.get_export_url(job_execution)
             # commit
             db.session.commit()
 
@@ -181,6 +184,15 @@ class SpiderAgent():
             if spider_service_instance.server == job_execution.running_on:
                 return spider_service_instance.log_url(project.project_name, job_instance.spider_name,
                                                        job_execution.service_job_execution_id)
+
+    def get_export_url(self, job_execution):
+        res = requests.get(self.log_url(job_execution))
+        res.encoding = 'utf8'
+        raw = res.text
+        export_url_pattern = re.compile('feed \(\d* items\) in: ([^\n]*)')
+        url = export_url_pattern.search(raw)
+        url = url.group(1) if url else ''
+        return url.replace(config.STORAGE_PREFIX, config.FILES_STORAGE)
 
     @property
     def servers(self):

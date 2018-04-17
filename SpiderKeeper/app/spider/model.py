@@ -158,6 +158,7 @@ class JobExecution(Base):
     end_time = db.Column(db.DateTime)
     running_status = db.Column(db.INTEGER, default=SpiderStatus.PENDING)
     running_on = db.Column(db.Text)
+    export_url = db.Column(db.Text, nullable=True)
 
     def to_dict(self):
         job_instance = JobInstance.query.filter_by(id=self.job_instance_id).first()
@@ -171,7 +172,8 @@ class JobExecution(Base):
             'end_time': self.end_time.strftime('%Y-%m-%d %H:%M:%S') if self.end_time else None,
             'running_status': self.running_status,
             'running_on': self.running_on,
-            'job_instance': job_instance.to_dict() if job_instance else {}
+            'job_instance': job_instance.to_dict() if job_instance else {},
+            'export_url': self.export_url,
         }
 
     @classmethod

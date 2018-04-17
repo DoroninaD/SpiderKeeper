@@ -537,21 +537,12 @@ def job_dashboard(project_id):
 
 @app.route("/project/<project_id>/job/<job_id>/detail", methods=['get'])
 def job_detail(project_id, job_id):
-    job_status = JobExecution.find_job_by_instance_id(job_id)
+    job_execution = JobExecution.find_job_by_instance_id(job_id)
     job_instance = JobInstance.find_job_instance_by_id(job_id)
-
-    start_time = job_status.get("start_time")
-    start_time = time.strptime(start_time, '%Y-%m-%d %H:%M:%S')
-    start_time = time.strftime('%Y-%m-%dT%H-%M-%S', start_time)
-
-    export_url = f'{config.FILES_STORAGE}/{job_instance.spider_name}/' \
-          f'{start_time}.{config.FILES_FORMAT}'
-
     return render_template(
         'job_detail.html',
-        job=job_status,
+        job=job_execution,
         job_instance=job_instance,
-        url=export_url
     )
 
 

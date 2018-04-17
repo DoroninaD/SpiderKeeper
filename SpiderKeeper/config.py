@@ -38,24 +38,25 @@ BASIC_AUTH_USERNAME = 'admin'
 BASIC_AUTH_PASSWORD = 'admin'
 BASIC_AUTH_FORCE = True
 
-FILES_STORAGE = 'https://s3.amazonaws.com/dds-testing-bucket/scrapy'
+FILES_STORAGE = 'https://s3.amazonaws.com/'
+STORAGE_PREFIX = 's3://'
 FILES_FORMAT = 'csv'
 
 # DB settings
 
-DATABASE = {
-    'DB': 'postgresql',
-    'NAME': 'usummit_grabbers',
-    'USER': 'django_user',
-    'PASSWORD': 'django_password',
-    'HOST': '127.0.0.1',
-    'PORT': '5432',
-    'CONN_MAX_AGE': 30,
-}
+# DATABASE = {
+#     'DB': 'postgresql',
+#     'NAME': 'usummit_grabbers',
+#     'USER': 'django_user',
+#     'PASSWORD': 'django_password',
+#     'HOST': '127.0.0.1',
+#     'PORT': '5432',
+#     'CONN_MAX_AGE': 30,
+# }
 
-# SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.abspath('.'), 'SpiderKeeper.db')
-SQLALCHEMY_DATABASE_URI = '{DB}://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}'\
-    .format_map(DATABASE)
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(os.path.abspath('.'), 'SpiderKeeper.db')
+# SQLALCHEMY_DATABASE_URI = '{DB}://{USER}:{PASSWORD}@{HOST}:{PORT}/{NAME}'\
+#     .format_map(DATABASE)
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}

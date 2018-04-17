@@ -11,7 +11,8 @@
     right: 10px;">
 
 
-<a href="{{ url }}" type="button" class="btn btn-success btn-flat" style="margin-top: -10px;
+<a href="{{ job.export_url }}" type="button" class="btn btn-success btn-flat"
+   style="margin-top: -10px;
 ">Export</a>
 
 </ol>
@@ -79,41 +80,4 @@
         </table>
     </div>
 </div>
-
-    <div class="modal fade" role="dialog" id="job-export-modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form action="/project/{{ project.id }}/job/{{ job.job_instance_id }}/export"
-                  method="post">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Export job</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Format</label>
-                        <select class="form-control" name="spider_name">
-{#                            {% for format in format_list %}#}
-{#                            <option value="{{ format.spider_name }}">{{ spider#}
-{#                            .spider_name }}</option>#}
-{#                            {% endfor %}#}
-                            <option value="csv">csv</option>
-                        </select>
-                    </div>
-<a href="https://s3.amazonaws.com/dds-testing-bucket/scrapy/aan_events/2018-04-15T08-38-08.csv">Download</a>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn
-                    btn-primary">Export</button>
-                </div>
-            </form>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 {% endblock %}
