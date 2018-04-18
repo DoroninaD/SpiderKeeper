@@ -27,7 +27,6 @@
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <tr>
-                <th style="width: 10px">#</th>
                 <th style="width: 30px">Job</th>
                 <th style="width: 160px">Spider</th>
                 <th style="width: 100px">Args</th>
@@ -37,12 +36,11 @@
             {% for job in job_status.PENDING %}
             {% if job.job_instance %}
             <tr>
-                <td>{{ job.job_execution_id }}</td>
                 <td>
-                    <a href="/project/{{ job.job_project_id }}/job/{{ job
-                    .job_instance_id}}/detail">{{ job.job_instance_id }}</a>
+                    <a href="/job/{{ job.job_instance_id}}/detail">
+                        {{ job.job_instance_id }}
+                    </a>
                 </td>
-{#                <td><a href="/project/1/job/periodic#{{ job.job_instance_id }}">{{ job.job_instance_id }}</a></td>#}
                 <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
@@ -84,7 +82,6 @@
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <tr>
-                <th style="width: 10px">#</th>
                 <th style="width: 30px">Job</th>
                 <th style="width: 160px">Spider</th>
                 <th style="width: 100px">Args</th>
@@ -98,13 +95,12 @@
             {% for job in job_status.RUNNING %}
             {% if job.job_instance %}
             <tr>
-                <td>{{ job.job_execution_id }}</td>
                 <td>
-                    <a href="/project/{{ job.job_project_id }}/job/{{ job
-                    .job_instance_id}}/detail">
+                    <a href="/job/{{ job.job_instance_id}}/detail">
                         {{ job.job_instance_id }}
                     </a>
-                </td>                <td>{{ job.job_instance.spider_name }}</td>
+                </td>
+                <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
                 </td>
@@ -154,7 +150,6 @@
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <tr>
-                <th style="width: 10px">#</th>
                 <th style="width: 30px">Job</th>
                 <th style="width: 160px">Spider</th>
                 <th style="width: 100px">Args</th>
@@ -167,9 +162,8 @@
             {% for job in job_status.COMPLETED %}
             {% if job.job_instance %}
             <tr>
-                <td>{{ job.job_execution_id }}</td>
                 <td>
-                    <a href="/project/{{ job.project_id }}/job/{{ job.job_instance_id}}/detail">
+                    <a href="/job/{{ job.job_instance_id}}/detail">
                         {{ job.job_instance_id }}
                     </a>
                 </td>
