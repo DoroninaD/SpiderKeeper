@@ -118,6 +118,20 @@ class SpiderAgent():
                     job_execution.end_time = job_execution_info['end_time']
                     job_execution.running_status = SpiderStatus.FINISHED
                     job_execution.export_url = self.get_export_url(job_execution)
+
+            # set status to CANCELED for jobs that are not in scrapyd
+            all_execution_info = (job_status[SpiderStatus.FINISHED]
+                                  + job_status[SpiderStatus.PENDING]
+                                  + job_status[SpiderStatus.RUNNING])
+
+            not_existing_jobs = (job for job in job_execution_info if job
+                                 not in all_execution_info)
+
+            for job_execution_info in not_existing_jobs:
+                print(job_execution_info)
+                job_execution = job_execution_dict.get(job_execution_info['id'])
+                job_execution.running_status = SpiderStatus.FINISHED
+
             # commit
             db.session.commit()
 
