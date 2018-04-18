@@ -124,9 +124,7 @@ class SpiderAgent():
     def start_spider(self, job_instance):
         project = Project.find_project_by_id(job_instance.project_id)
         spider_name = job_instance.spider_name
-        #arguments = {}
-        #if job_instance.spider_arguments:
-        #    arguments = dict(map(lambda x: x.split("="), job_instance.spider_arguments.split(",")))
+
         from collections import defaultdict
         arguments = defaultdict(list)
         if job_instance.spider_arguments:
@@ -150,14 +148,22 @@ class SpiderAgent():
             for i in range(threshold):
                 leaders.append(random.choice(candidates))
         for leader in leaders:
-            serviec_job_id = leader.start_spider(project.project_name, spider_name, arguments)
             job_execution = JobExecution()
             job_execution.project_id = job_instance.project_id
-            job_execution.service_job_execution_id = serviec_job_id
             job_execution.job_instance_id = job_instance.id
             job_execution.create_time = datetime.datetime.now()
             job_execution.running_on = leader.server
             db.session.add(job_execution)
+            db.session.commit()
+
+            # # add job_id to spider args
+            arguments['job_id'] = job_execution.id
+            service_job_id = leader.start_spider(
+                project.project_name,
+                spider_name,
+                arguments
+            )
+            job_execution.service_job_execution_id = service_job_id
             db.session.commit()
 
     def cancel_spider(self, job_execution):
@@ -186,13 +192,13 @@ class SpiderAgent():
                                                        job_execution.service_job_execution_id)
 
     def get_export_url(self, job_execution):
-        res = requests.get(self.log_url(job_execution))
-        res.encoding = 'utf8'
-        raw = res.text
-        export_url_pattern = re.compile('feed \(\d* items\) in: ([^\n]*)')
-        url = export_url_pattern.search(raw)
-        url = url.group(1) if url else ''
-        return url.replace(config.STORAGE_PREFIX, config.FILES_STORAGE)
+        job_instance = JobInstance.find_job_instance_by_id(job_execution.job_instance_id)
+        export_url = '/'.join([
+            config.FILES_STORAGE,
+            job_instance.spider_name,
+            str(job_execution.id),
+        ])
+        return f'{export_url}.{config.FILES_FORMAT}'
 
     @property
     def servers(self):

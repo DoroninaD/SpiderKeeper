@@ -27,6 +27,7 @@
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <tr>
+                <th style="width: 10px">#</th>
                 <th style="width: 30px">Job</th>
                 <th style="width: 160px">Spider</th>
                 <th style="width: 100px">Args</th>
@@ -37,10 +38,11 @@
             {% if job.job_instance %}
             <tr>
                 <td>
-                    <a href="/job/{{ job.job_instance_id}}/detail">
-                        {{ job.job_instance_id }}
+                    <a href="/job/{{ job.job_execution_id}}/detail">
+                        {{ job.job_execution_id }}
                     </a>
                 </td>
+                <td>{{ job.job_instance_id }}</td>
                 <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
@@ -82,6 +84,7 @@
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <tr>
+                <th style="width: 10px">#</th>
                 <th style="width: 30px">Job</th>
                 <th style="width: 160px">Spider</th>
                 <th style="width: 100px">Args</th>
@@ -96,10 +99,11 @@
             {% if job.job_instance %}
             <tr>
                 <td>
-                    <a href="/job/{{ job.job_instance_id}}/detail">
-                        {{ job.job_instance_id }}
+                    <a href="/job/{{ job.job_execution_id}}/detail">
+                        {{ job.job_execution_id }}
                     </a>
                 </td>
+                <td>{{ job.job_instance_id }}</td>
                 <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}
@@ -150,6 +154,7 @@
     <div class="box-body table-responsive">
         <table class="table table-striped">
             <tr>
+                <th style="width: 10px">#</th>
                 <th style="width: 30px">Job</th>
                 <th style="width: 160px">Spider</th>
                 <th style="width: 100px">Args</th>
@@ -163,10 +168,11 @@
             {% if job.job_instance %}
             <tr>
                 <td>
-                    <a href="/job/{{ job.job_instance_id}}/detail">
-                        {{ job.job_instance_id }}
+                    <a href="/job/{{ job.job_execution_id}}/detail">
+                        {{ job.job_execution_id }}
                     </a>
                 </td>
+                <td>{{ job.job_instance_id }}</td>
                 <td>{{ job.job_instance.spider_name }}</td>
                 <td class="txt-args" data-toggle="tooltip" data-placement="right"
                     title="{{ job.job_instance.spider_arguments }}">{{ job.job_instance.spider_arguments }}

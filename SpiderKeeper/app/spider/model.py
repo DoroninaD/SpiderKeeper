@@ -151,7 +151,7 @@ class JobExecution(Base):
     __tablename__ = 'sk_job_execution'
 
     project_id = db.Column(db.INTEGER, nullable=False, index=True)
-    service_job_execution_id = db.Column(db.String(50), nullable=False, index=True)
+    service_job_execution_id = db.Column(db.String(50), index=True)
     job_instance_id = db.Column(db.INTEGER, nullable=False, index=True)
     create_time = db.Column(db.DateTime)
     start_time = db.Column(db.DateTime)
@@ -175,12 +175,6 @@ class JobExecution(Base):
             'job_instance': job_instance.to_dict() if job_instance else {},
             'export_url': self.export_url,
         }
-
-    @classmethod
-    def find_job_by_instance_id(cls, job_instance_id):
-        return cls.query.filter_by(job_instance_id=job_instance_id).first(
-
-        ).to_dict()
 
     @classmethod
     def find_job_by_service_id(cls, service_job_execution_id):
