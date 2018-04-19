@@ -9,6 +9,7 @@ from flask_basicauth import BasicAuth
 from flask_restful import Api
 from flask_restful_swagger import swagger
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from werkzeug.exceptions import HTTPException
 
 import SpiderKeeper
@@ -34,7 +35,7 @@ api = swagger.docs(Api(app), apiVersion=SpiderKeeper.__version__, api_spec_url="
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app, session_options=dict(autocommit=False, autoflush=True))
-
+migrate = Migrate(app, db)
 
 @app.teardown_request
 def teardown_request(exception):
