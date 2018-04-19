@@ -38,8 +38,9 @@ BASIC_AUTH_USERNAME = 'admin'
 BASIC_AUTH_PASSWORD = 'admin'
 BASIC_AUTH_FORCE = True
 
-FILES_STORAGE = 'https://s3.amazonaws.com/dds-testing-bucket/scrapy'
-FILES_FORMAT = 'csv'
+FEED_URI = 's3://dds-testing-bucket/scrapy/%(name)s/%(job_id)s.csv'
+FEED_FORMAT = 'csv'
+EXPORT_URI = 'https://s3.amazonaws.com/dds-testing-bucket/scrapy/%(name)s/%(job_id)s.csv'
 
 # DB settings
 

@@ -117,7 +117,12 @@ class SpiderAgent():
                     job_execution.start_time = job_execution_info['start_time']
                     job_execution.end_time = job_execution_info['end_time']
                     job_execution.running_status = SpiderStatus.FINISHED
-                    job_execution.export_url = self.get_export_url(job_execution)
+                    job_instance = JobInstance.find_job_instance_by_id(job_execution.job_instance_id)
+                    job_execution.export_url = self.get_feed_uri(
+                        job_execution.id,
+                        job_instance.spider_name,
+                        config.EXPORT_URI
+                    )
             # commit
             db.session.commit()
 
@@ -156,8 +161,25 @@ class SpiderAgent():
             db.session.add(job_execution)
             db.session.commit()
 
-            # # add job_id to spider args
-            arguments['job_id'] = job_execution.id
+            # pass FEED_URI and FEED_FORMAT to spider arguments
+            custom_settings = []
+            if config.FEED_URI:
+                custom_settings.append(
+                    'FEED_URI={}'.format(
+                        self.get_feed_uri(
+                            job_execution.id,
+                            spider_name,
+                            config.FEED_URI
+                        )
+                    )
+                )
+            if config.FEED_FORMAT:
+                custom_settings.append(
+                    'FEED_FORMAT={}'.format(config.FEED_FORMAT)
+                )
+            if custom_settings:
+                arguments['setting'] = custom_settings
+
             service_job_id = leader.start_spider(
                 project.project_name,
                 spider_name,
@@ -165,6 +187,7 @@ class SpiderAgent():
             )
             job_execution.service_job_execution_id = service_job_id
             db.session.commit()
+
 
     def cancel_spider(self, job_execution):
         job_instance = JobInstance.find_job_instance_by_id(job_execution.job_instance_id)
@@ -191,14 +214,11 @@ class SpiderAgent():
                 return spider_service_instance.log_url(project.project_name, job_instance.spider_name,
                                                        job_execution.service_job_execution_id)
 
-    def get_export_url(self, job_execution):
-        job_instance = JobInstance.find_job_instance_by_id(job_execution.job_instance_id)
-        export_url = '/'.join([
-            config.FILES_STORAGE,
-            job_instance.spider_name,
-            str(job_execution.id),
-        ])
-        return f'{export_url}.{config.FILES_FORMAT}'
+    def get_feed_uri(self, job_execution_id, spider_name, uri):
+        return uri % {
+            'name': spider_name,
+            'job_id': job_execution_id
+        }
 
     @property
     def servers(self):
