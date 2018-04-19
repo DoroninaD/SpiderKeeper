@@ -67,7 +67,7 @@
                 <td>{{ timedelta(job.end_time,job.start_time) }}</td>
                 <td>{{ job.start_time }}</td>
                 <td><a href="/project/{{ project.id }}/jobexecs/{{
-                        job.job_execution_id }}/log" target="_blank"
+                        job.id }}/log" target="_blank"
                        data-toggle="tooltip" data-placement="top" title="{{
                         job.service_job_execution_id }}">Log</a>
                 </td>
